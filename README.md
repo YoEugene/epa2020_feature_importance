@@ -20,7 +20,8 @@
 
 6. 若成功，會看到以下字樣
 
-<code>Dash is running on http://0.0.0.0:8080/
+```console
+Dash is running on http://0.0.0.0:8080/
 
  Warning: This is a development server. Do not use app.run_server
  in production, use a production WSGI server like gunicorn instead.
@@ -30,7 +31,8 @@
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
- * Running on http://0.0.0.0:8080/ (Press CTRL+C to quit)</code>
+ * Running on http://0.0.0.0:8080/ (Press CTRL+C to quit)
+```
 
 7. 打開瀏覽器，輸入以上網址，即可進入視覺化圖表
 
