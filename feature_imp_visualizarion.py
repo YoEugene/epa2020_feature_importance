@@ -27,9 +27,7 @@ app.layout = html.Div([
         value=unique_stations,
         multi=True
     ),
-    dcc.Graph(id='gapminder',
-              animate=True
-    ),
+    dcc.Graph(id='gapminder'),
     dcc.Slider(
         id='hour-slider',
         min=df['hour'].min(),
@@ -37,8 +35,7 @@ app.layout = html.Div([
         value=df['hour'].min(),
         step=None,
         marks={str(hour): str(hour) for hour in df['hour'].unique()}
-    ),
-    dcc.Interval(id='graph-update',interval=2*1000),
+    )
 ])
 
 
@@ -46,8 +43,6 @@ app.layout = html.Div([
     dash.dependencies.Output('gapminder', 'figure'),
     [dash.dependencies.Input('hour-slider', 'value'),
      dash.dependencies.Input('station-dropdown', 'value')])
-
-
 def update_figure(selected_hour, selected_station):
     hour_filtered_df = df[df.hour == selected_hour]
     filtered_df = hour_filtered_df[df.station.isin(selected_station)]
