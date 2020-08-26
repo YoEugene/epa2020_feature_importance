@@ -7,12 +7,18 @@ import plotly.graph_objs as go
 
 app = dash.Dash()
 
-df = pd.read_csv("./PM25_importance.csv")
+ind = 0  # The only thing needs to modify, 0 -> PM25, 1 -> PM10. 2 -> O3, 3 -> NO2
+
+##################################################################################
+
+variables = ['PM25', 'PM10', 'O3', 'NO2']
+
+df = pd.read_csv("./" + variables[ind] + "_importance.csv")
 
 unique_stations = list(df["station"].unique())
 
 app.layout = html.Div([
-    html.H2(children='空汙視覺化 Air Pollution Feature Importance Visualization'),
+    html.H2(children=variables[ind] + ' Air Pollution Feature Importance Visualization'),
     dcc.Dropdown(
         id="station-dropdown",
         options=[
@@ -23,7 +29,7 @@ app.layout = html.Div([
     ),
     dcc.Graph(id='gapminder',
               animate=True
-              ),
+    ),
     dcc.Slider(
         id='hour-slider',
         min=df['hour'].min(),
@@ -31,7 +37,8 @@ app.layout = html.Div([
         value=df['hour'].min(),
         step=None,
         marks={str(hour): str(hour) for hour in df['hour'].unique()}
-    )
+    ),
+    dcc.Interval(id='graph-update',interval=2*1000),
 ])
 
 
@@ -73,4 +80,4 @@ def update_figure(selected_hour, selected_station):
     }
 
 if __name__ == '__main__':
-    app.run_server(debug=True, host='0.0.0.0')
+    app.run_server(debug=True, host='0.0.0.0', port=8050 + ind * 10)
