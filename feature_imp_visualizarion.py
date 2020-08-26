@@ -5,20 +5,21 @@ import math
 import pandas as pd
 import plotly.graph_objs as go
 
-app = dash.Dash()
+##################################################################################
 
-ind = 0  # The only thing needs to modify, 0 -> PM25, 1 -> PM10. 2 -> O3, 3 -> NO2
+feature_ind = 0  # The only thing needs to be modified: 0 -> PM25, 1 -> PM10. 2 -> O3, 3 -> NO2
 
 ##################################################################################
 
+app = dash.Dash()
 variables = ['PM25', 'PM10', 'O3', 'NO2']
 
-df = pd.read_csv("./" + variables[ind] + "_importance.csv")
+df = pd.read_csv("./" + variables[feature_ind] + "_importance.csv")
 
 unique_stations = list(df["station"].unique())
 
 app.layout = html.Div([
-    html.H2(children=variables[ind] + ' Air Pollution Feature Importance Visualization'),
+    html.H2(children=variables[feature_ind] + ' Air Pollution Feature Importance Visualization'),
     dcc.Dropdown(
         id="station-dropdown",
         options=[
@@ -65,8 +66,6 @@ def update_figure(selected_hour, selected_station):
             name=i,
         ))
 
-    print(traces)
-
     return {
         'data': traces,
         'layout': go.Layout(
@@ -79,4 +78,4 @@ def update_figure(selected_hour, selected_station):
     }
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', port=8050 + ind * 10)
+    app.run_server(debug=False, host='0.0.0.0', port=8050 + ind * 10)
