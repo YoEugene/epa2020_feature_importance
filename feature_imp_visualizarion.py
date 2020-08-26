@@ -35,7 +35,7 @@ app.layout = html.Div([
         value=df['hour'].min(),
         step=None,
         marks={str(hour): str(hour) for hour in df['hour'].unique()}
-    )
+    ),
 ])
 
 
@@ -47,8 +47,10 @@ def update_figure(selected_hour, selected_station):
     hour_filtered_df = df[df.hour == selected_hour]
     filtered_df = hour_filtered_df[df.station.isin(selected_station)]
     traces = []
+    tmp_max = 0
     for i in filtered_df.station.unique():
         df_by_station = filtered_df[filtered_df['station'] == i].sort_values(['importance'], ascending=[0])[:20]
+        tmp_max = max(tmp_max, df_by_station['importance'].max())
         traces.append(go.Scatter(
             x=df_by_station['feature'],
             y=df_by_station['importance'],
@@ -63,11 +65,13 @@ def update_figure(selected_hour, selected_station):
             name=i,
         ))
 
+    print(traces)
+
     return {
         'data': traces,
         'layout': go.Layout(
             xaxis={'type': 'category', 'title': 'feature'},
-            yaxis={'title': 'importance', 'range': [0, 1]},
+            yaxis={'title': 'importance', 'range': [0, tmp_max + 0.05]},
             margin={'l': 40, 'b': 150, 't': 10, 'r': 40},
             legend={'x': 0, 'y': 1},
             hovermode='closest'
