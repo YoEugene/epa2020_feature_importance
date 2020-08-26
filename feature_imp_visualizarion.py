@@ -78,4 +78,4 @@ def update_figure(selected_hour, selected_station):
     }
 
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8050 + ind * 10)
+    app.run_server(debug=False, host='0.0.0.0', port=8050 + feature_ind * 10)
